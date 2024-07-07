@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static AdventureQuestRPG.Characters;
 
 namespace AdventureQuestRPG
 {
     public class BattleSystem
     {
-        public void AttackPlayer (Characters.Player player, Characters.Monster monster)
+        private Random random = new Random();
+
+        public void AttackPlayer(IBattleStates player, IBattleStates monster)
         {
             int damage = player.AttackPower - monster.Defense;
             if (damage < 0)
@@ -23,12 +20,10 @@ namespace AdventureQuestRPG
                 monster.Health = 0;
             }
 
-            Console.WriteLine($"{player.Name} attack {monster.Name} with {damage} damage ,and Health is now {monster.Health}");
+            Console.WriteLine($"{player.Name} attacks {monster.Name} with {damage} damage, and {monster.Name}'s Health is now {monster.Health}");
         }
 
-        //=================================================================
-
-         public void AttackMonster(Characters.Monster monster, Characters.Player player )
+        public void AttackMonster(IBattleStates monster, IBattleStates player)
         {
             int damage = monster.AttackPower - player.Defense;
             if (damage < 0)
@@ -42,7 +37,24 @@ namespace AdventureQuestRPG
                 player.Health = 0;
             }
 
-            Console.WriteLine($"{monster.Name} attack {player.Name} with {damage} damage ,and Health is now {player.Health}");
+            Console.WriteLine($"{monster.Name} attacks {player.Name} with {damage} damage, and {player.Name}'s Health is now {player.Health}");
+        }
+
+        public Item GenerateRandomItem()
+        {
+            int itemType = random.Next(0, 3);
+
+            switch (itemType)
+            {
+                case 0:
+                    return new Weapon("Sword", "A sharp blade that increases attack power.");
+                case 1:
+                    return new Armor("Shield", "A sturdy shield that increases defense.");
+                case 2:
+                    return new Potion("Health Potion", "A potion that restores health.", 20);
+                default:
+                    return null;
+            }
         }
     }
 }
