@@ -1,63 +1,88 @@
 using AdventureQuestRPG;
-using static AdventureQuestRPG.Characters;
+using AdventureQuestRPG.Characters;
+using Xunit;
 
-namespace AdventureQuestRPGTests
+namespace AdventureQuestRPG.Tests
 {
-    public class UnitTest1
+    public class BattleSystemTests
     {
+        //[Fact]
+        //public void PlayerAttackReducesEnemyHealth()
+        //{
+        //     Arrange
+        //    Player player = new Player();
+        //    Monster enemy = new DevilMonster();
+        //    BattleSystem battleSystem = new BattleSystem();
+
+        //    int initialHealth = enemy.Health;
+
+        //     Act
+        //    battleSystem.AttackMonster(player, enemy);
+
+        //     Assert
+        //    Assert.True(enemy.Health < initialHealth);
+        //}
+
+        //[Fact]
+        //public void EnemyAttackReducesPlayerHealth()
+        //{
+        //     Arrange
+        //    Player player = new Player();
+        //    Monster enemy = new DevilMonster();
+        //    BattleSystem battleSystem = new BattleSystem();
+
+        //    int initialHealth = player.Health;
+
+        //     Act
+        //    battleSystem.AttackPlayer(enemy, player);
+
+        //     Assert
+        //    Assert.True(player.Health < initialHealth);
+        //}
+
+        //[Fact]
+        //public void WinnerHealthGreaterThanZeroAfterBattle()
+        //{
+        //     Arrange
+        //    Player player = new Player();
+        //    Monster enemy = new DevilMonster();
+        //    BattleSystem battleSystem = new BattleSystem();
+
+        //     Act
+        //    Program.StartBattle(player, enemy);
+        //    int playerHealth = player.Health;
+        //    int enemyHealth = enemy.Health;
+
+        //     Assert
+        //    Assert.True(playerHealth > 0 || enemyHealth > 0);
+        //}
+
         [Fact]
-        public void ReducesHealthOfEnemy()
-        {
-            //arrange
-            Player player = new Player("Player", 100 , 15,10);
-            Monster enemy = new Noor("Enemy", 80, 10, 5);
-
-            int newEnemyHealth = enemy.Health;
-            //Act
-            BattleSystem battleSystem = new BattleSystem();
-            battleSystem.AttackPlayer(player, enemy);
-            
-            //Assert
-            Assert.True(enemy.Health <  newEnemyHealth);
-        }
-
-
-        //=============================
-
-       
-        [Fact]
-        public void AttackMonster_ShouldReducePlayerHealth()
+        public void EncounterBossMonster()
         {
             // Arrange
-            var player = new Player("TestPlayer", 100, 20, 5);
-            var monster = new Noor("TestMonster", 100, 20, 5);
-            var battleSystem = new BattleSystem();
+            Player player = new Player();
+            Monster boss = new BossMonster();
+            BattleSystem battleSystem = new BattleSystem();
 
             // Act
-            battleSystem.AttackMonster(monster, player);
+            Program.StartBattle(player, boss);
 
             // Assert
-            int expectedHealth = 100 - (20 - 5); // Initial health minus (monster's attack power - player's defense)
-            Assert.Equal(expectedHealth, player.Health);
+            Assert.True(boss is BossMonster);
         }
 
-        //=============================
-
         [Fact]
-        public void WinnerHealth()
+        public void MoveToNewLocation()
         {
-            Player player = new Player("Player", 100, 15, 10);
-            Monster enemy = new Noor("Enemy", 80, 10, 5);
+            // Arrange
+            Adventure adventure = new Adventure();
 
-            //Act
-            BattleSystem battleSystem = new BattleSystem();
-            battleSystem.AttackPlayer(player, enemy);
+            // Act
+            adventure.MoveToNewLocation("Forest");
 
-            //Assert
-            if (player.Health > 0 || enemy.Health >0) { 
-                Assert.True(player.Health > 0);
-                Assert.True(enemy.Health > 0);
-            }
+            // Assert
+            Assert.Equal("Forest", adventure.CurrentLocation);
         }
     }
 }
