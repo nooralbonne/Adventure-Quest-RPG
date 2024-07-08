@@ -18,6 +18,8 @@ namespace AdventureQuestRPG
             currentLocation = "Town Square";
         }
 
+        public string CurrentLocation => currentLocation; // Add this property
+
         public void Start()
         {
             bool gameRunning = true;
@@ -36,7 +38,7 @@ namespace AdventureQuestRPG
                 switch (choice)
                 {
                     case "1":
-                        MoveToNewLocation();
+                        PromptMoveToNewLocation(); // Changed to call a separate method for user input
                         break;
                     case "2":
                         FightNextMonster();
@@ -58,7 +60,7 @@ namespace AdventureQuestRPG
             }
         }
 
-        private void MoveToNewLocation()
+        private void PromptMoveToNewLocation() // Separated user input for better testability
         {
             Console.WriteLine("Choose a new location to move to:");
             Console.WriteLine("1. Forest");
@@ -70,21 +72,37 @@ namespace AdventureQuestRPG
             switch (locationChoice)
             {
                 case "1":
-                    currentLocation = "Forest";
-                    Console.WriteLine($"You have moved to the {currentLocation}.");
+                    MoveToNewLocation("Forest");
                     break;
                 case "2":
-                    currentLocation = "Subway";
-                    Console.WriteLine($"You have moved to the {currentLocation}.");
+                    MoveToNewLocation("Subway");
                     break;
                 case "3":
-                    currentLocation = "Mountain";
-                    Console.WriteLine($"You have moved to the {currentLocation}.");
+                    MoveToNewLocation("Mountain");
                     break;
                 default:
                     Console.WriteLine("Invalid location choice. Please try again.");
                     break;
             }
+        }
+
+        public void MoveToNewLocation(string location) // Updated method to change the location
+        {
+            switch (location)
+            {
+                case "Forest":
+                    currentLocation = "Forest";
+                    break;
+                case "Subway":
+                    currentLocation = "Subway";
+                    break;
+                case "Mountain":
+                    currentLocation = "Mountain";
+                    break;
+                default:
+                    throw new ArgumentException("Invalid location");
+            }
+            Console.WriteLine($"You have moved to the {currentLocation}.");
         }
 
         private void FightNextMonster()
